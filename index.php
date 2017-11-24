@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <!--
@@ -20,32 +20,32 @@ and open the template in the editor.
     </head>
     <body>
         <div class="container-fluid">
-        <div style="padding-bottom: 150px;">
-            <nav id="nvbr" class="navbar navbar-expand-sm navbar-dark fixed-top">
-                <!-- Brand/logo -->
-                <div>
-                    <img class="navbar-brand" src="img/ut_logo_shield.png"></img>
-                    <!-- Links -->
-                </div>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">UT Textbook Exchange</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto"
-                    <li class="nav-item">
-                        <a class="nav-link" href="#help">Help</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal" data-target="#signupModal">Sign Up</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal" data-target="#loginModal">Log In</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-            
+            <div style="padding-bottom: 150px;">
+                <nav id="nvbr" class="navbar navbar-expand-sm navbar-dark fixed-top">
+                    <!-- Brand/logo -->
+                    <div>
+                        <img class="navbar-brand" src="img/ut_logo_shield.png"></img>
+                        <!-- Links -->
+                    </div>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">UT Textbook Exchange</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto"
+                        <li class="nav-item">
+                            <a class="nav-link" href="#help">Help</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="modal" data-target="#loginModal">Log In</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
             <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -71,7 +71,7 @@ and open the template in the editor.
                                         Remember Me
                                     </label>
                                 </div>
-                            
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -81,7 +81,7 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            
+
             <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -114,14 +114,13 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            
-            <div class="row justify-content-sm-center">
-            <?php
 
+            <div class="row justify-content-sm-center">
+                <?php
                 if (isset($_POST['submitSignUp']))
-                {
-                    require_once(__DIR__ .'\includes\dbconnection.php');
-                    
+                    {
+                    require_once(__DIR__ . '\includes\dbconnection.php');
+
                     $userName = mysqli_real_escape_string($db, $_POST['signUpInputUser']);
                     $userPassword = mysqli_real_escape_string($db, $_POST['signUpInputPassword']);
 
@@ -129,107 +128,104 @@ and open the template in the editor.
                     $userUniqueResult = $db->query($checkIfUserUniqueQuery) or die("BAD SQL: $checkIfUserUniqueQuery");
 
                     if ($userUniqueResult->num_rows > 0)
-                    {
+                        {
                         echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Sorry, this username already exists.</h1>";
-                    }
+                        }
                     else
-                    {
-                        $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf".$userPassword;
+                        {
+                        $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
                         $hashedPassword = hash('sha512', $saltedPassword);
                         $addUserQuery = "INSERT INTO users (username, pw) VALUES ('$userName', '$hashedPassword')";
-                        
-                        $addUserResult = mysqli_query($db, $addUserQuery) or die("BAD SQL: $addUserQuery"); 
+
+                        $addUserResult = mysqli_query($db, $addUserQuery) or die("BAD SQL: $addUserQuery");
 
                         echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Your username has been created!</h1>";
+                        }
                     }
-                }
-
-            ?>
+                ?>
 
             </div>
             <?php
-
-                if (isset($_POST['submitLogIn']))
+            if (isset($_POST['submitLogIn']))
                 {
-                    require_once(__DIR__ .'\includes\dbconnection.php');
+                require_once(__DIR__ . '\includes\dbconnection.php');
 
-                    $userName = mysqli_real_escape_string($db, $_POST['logInInputUser']);
-                    $userPassword = mysqli_real_escape_string($db, $_POST['logInInputPassword']);
+                $userName = mysqli_real_escape_string($db, $_POST['logInInputUser']);
+                $userPassword = mysqli_real_escape_string($db, $_POST['logInInputPassword']);
 
-                    $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf".$userPassword;
-                    $hashedPassword = hash('sha512', $saltedPassword);
+                $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
+                $hashedPassword = hash('sha512', $saltedPassword);
 
-                    $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
+                $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
 
-                    $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery"); 
-                    
-                    if ($validateCredentialsResult->num_rows > 0)
+                $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery");
+
+                if ($validateCredentialsResult->num_rows > 0)
                     {
-                        $_SESSION['user'] = $userName;
-                        echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>You have successfully logged in!</h1>";
+                    $_SESSION['user'] = $userName;
+                    echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>You have successfully logged in!</h1>";
                     }
-                    else
+                else
                     {
-                        echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Invalid credentials.</h1>";
+                    echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Invalid credentials.</h1>";
                     }
                 }
-
             ?>
             <div class="row justify-content-sm-center">
                 <h1 align="center" style="color: #003e7e; padding-bottom: 30px;">My Books</h1>
             </div>
-            
+
             <div class="row justify-content-around">
                 <h3 style="color: #003e7e">For Sale</h3>
                 <h3 style="color: #003e7e">For Rent</h3>
             </div>
-            
+
             <div class="row">
-            <div class="accordion col-sm-5">
-                <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion 1</h4>
-                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                    <p>
-                        Cras malesuada ultrices augue molestie risus.
-                    </p>
-                </div>
+                <div class="accordion col-sm-5">
+                    <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion 1</h4>
+                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                        <p>
+                            Cras malesuada ultrices augue molestie risus.
+                        </p>
+                    </div>
 
-                <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Accordion 2</h4>
-                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <p>
-                        Lorem ipsum dolor sit amet mauris eu turpis.
-                    </p>
-                </div>
+                    <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Accordion 2</h4>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <p>
+                            Lorem ipsum dolor sit amet mauris eu turpis.
+                        </p>
+                    </div>
 
-                <h4 class="accordion-toggle">Accordion 3</h4>
-                <div class="accordion-content">
-                    <p>
-                        Vivamus facilisisnibh scelerisque laoreet.
-                    </p>
+                    <h4 class="accordion-toggle">Accordion 3</h4>
+                    <div class="accordion-content">
+                        <p>
+                            Vivamus facilisisnibh scelerisque laoreet.
+                        </p>
+                    </div>
+                </div>
+                <div class="accordion col-sm-5">
+                    <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion 1</h4>
+                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                        <p>
+                            Cras malesuada ultrices augue molestie risus.
+                        </p>
+                    </div>
+
+                    <h4 class="accordion-toggle">Accordion 2</h4>
+                    <div class="accordion-content">
+                        <p>
+                            Lorem ipsum dolor sit amet mauris eu turpis.
+                        </p>
+                    </div>
+
+                    <h4 class="accordion-toggle">Accordion 3</h4>
+                    <div class="accordion-content">
+                        <p>
+                            Vivamus facilisisnibh scelerisque laoreet.
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="accordion col-sm-5">
-                <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion 1</h4>
-                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                    <p>
-                        Cras malesuada ultrices augue molestie risus.
-                    </p>
-                </div>
-
-                <h4 class="accordion-toggle">Accordion 2</h4>
-                <div class="accordion-content">
-                    <p>
-                        Lorem ipsum dolor sit amet mauris eu turpis.
-                    </p>
-                </div>
-
-                <h4 class="accordion-toggle">Accordion 3</h4>
-                <div class="accordion-content">
-                    <p>
-                        Vivamus facilisisnibh scelerisque laoreet.
-                    </p>
-                </div>
-            </div>
-                </div>
 
             <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px; border-bottom: 10px solid #cecece; padding-top: 81px;">
                 <div class="form-group col-sm-4">
@@ -248,12 +244,9 @@ and open the template in the editor.
                 <div>
                     <h1 align="center" style="color: #003e7e; padding: 25px;">Inspired by your shopping trends</h1>
                 </div>
-                
+
                 <div class="row justify-content-sm-center card-deck">
                     <div class="card col-sm-3" style="width: 20px;">
-                        <?php 
-                            
-                        ?>
                         <img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="img/book.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title">Card title</h4>
