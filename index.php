@@ -30,7 +30,7 @@ and open the template in the editor.
                     $userPassword = $db-> real_escape_string($_POST['signUpInputPassword']);
 
                     $checkIfUserUniqueQuery = "SELECT * FROM users WHERE username ='$userName'";
-                    $userUniqueResult = DbConnection::getConnection()->query($checkIfUserUniqueQuery) or die("BAD SQL: $checkIfUserUniqueQuery");
+                    $userUniqueResult = $db->query($checkIfUserUniqueQuery) or die("BAD SQL: $checkIfUserUniqueQuery");
 
                     if ($userUniqueResult->num_rows > 0)
                         {
