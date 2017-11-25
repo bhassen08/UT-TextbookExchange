@@ -131,7 +131,7 @@ and open the template in the editor.
                 <?php
                 if (isset($_POST['submitSignUp']))
                     {
-                    require_once(__DIR__ . '\includes\dbconnection.php');
+                    require_once(__DIR__ . '\includes\DbConnection.php');
 
                     $userName = mysqli_real_escape_string($db, $_POST['signUpInputUser']);
                     $userPassword = mysqli_real_escape_string($db, $_POST['signUpInputPassword']);
@@ -160,7 +160,7 @@ and open the template in the editor.
             <?php
             if (isset($_POST['submitLogIn']))
                 {
-                require_once(__DIR__ . '\includes\dbconnection.php');
+                require_once(__DIR__ . '\includes\DbConnection.php');
 
                 $userName = mysqli_real_escape_string($db, $_POST['logInInputUser']);
                 $userPassword = mysqli_real_escape_string($db, $_POST['logInInputPassword']);
