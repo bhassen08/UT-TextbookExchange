@@ -20,7 +20,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class="container-fluid">
-            <div style="padding-bottom: 150px;">
+            <div style="padding-bottom: 85px;">
                 <nav id="nvbr" class="navbar navbar-expand-sm navbar-dark fixed-top">
                     <!-- Brand/logo -->
                     <div>
@@ -36,12 +36,24 @@ and open the template in the editor.
                         <li class="nav-item">
                             <a class="nav-link" href="#help">Help</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="modal" data-target="#signupModal">Sign Up</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="modal" data-target="#loginModal">Log In</a>
-                        </li>
+                        
+                        <?php
+                            if (!empty($_SESSION['user']))
+                                {
+                                    echo    '<li class="nav-item">
+                                                <a class="nav-link" href="./logout.php">Log Out</a>
+                                            </li>';
+                                }
+                            else
+                                {
+                                    echo    '<li class="nav-item">
+                                                <a class="nav-link" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="modal" data-target="#loginModal">Log In</a>
+                                            </li>';
+                                }
+                        ?>
                     </ul>
                 </nav>
             </div>
@@ -171,63 +183,8 @@ and open the template in the editor.
                     }
                 }
             ?>
-            <div class="row justify-content-sm-center">
-                <h1 align="center" style="color: #003e7e; padding-bottom: 30px;">My Books</h1>
-            </div>
 
-            <div class="row justify-content-around">
-                <h3 style="color: #003e7e">For Sale</h3>
-                <h3 style="color: #003e7e">For Rent</h3>
-            </div>
-
-            <div class="row">
-                <div class="accordion col-sm-5">
-                    <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion 1</h4>
-                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                        <p>
-                            Cras malesuada ultrices augue molestie risus.
-                        </p>
-                    </div>
-
-                    <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Accordion 2</h4>
-                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <p>
-                            Lorem ipsum dolor sit amet mauris eu turpis.
-                        </p>
-                    </div>
-
-                    <h4 class="accordion-toggle">Accordion 3</h4>
-                    <div class="accordion-content">
-                        <p>
-                            Vivamus facilisisnibh scelerisque laoreet.
-                        </p>
-                    </div>
-                </div>
-                <div class="accordion col-sm-5">
-                    <h4 class="accordion-toggle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Accordion 1</h4>
-                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                        <p>
-                            Cras malesuada ultrices augue molestie risus.
-                        </p>
-                    </div>
-
-                    <h4 class="accordion-toggle">Accordion 2</h4>
-                    <div class="accordion-content">
-                        <p>
-                            Lorem ipsum dolor sit amet mauris eu turpis.
-                        </p>
-                    </div>
-
-                    <h4 class="accordion-toggle">Accordion 3</h4>
-                    <div class="accordion-content">
-                        <p>
-                            Vivamus facilisisnibh scelerisque laoreet.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px; border-bottom: 10px solid #cecece; padding-top: 81px;">
+            <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px; border-bottom: 10px solid #cecece;">
                 <div class="form-group col-sm-4">
                     <input type="search" class="form-control" placeholder="Search">
                 </div>
@@ -240,46 +197,14 @@ and open the template in the editor.
                 </div>
             </div>
 
-            <div class="justify-content-sm-center" style="height: 500px;">
-                <div>
-                    <h1 align="center" style="color: #003e7e; padding: 25px;">Inspired by your shopping trends</h1>
-                </div>
-
-                <div class="row justify-content-sm-center card-deck">
-                    <div class="card col-sm-3" style="width: 20px;">
-                        <img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="img/book.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Get it</a>
-                        </div>
-                    </div>
-                    <div class="card col-sm-3" style="width: 20px;">
-                        <img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="img/book.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Get it</a>
-                        </div>
-                    </div>
-                    <div class="card col-sm-3" style="width: 20px;">
-                        <img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="img/book.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Get it</a>
-                        </div>
-                    </div>
-                    <div class="card col-sm-3" style="width: 20rem;">
-                        <img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="img/book.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Get it</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+                if (!empty($_SESSION['user']))
+                    {
+                        require_once(__DIR__ . '\includes\InspiredTrends.php');
+                
+                        GenerateInspiredCards();
+                    }
+            ?>
         </div>
     </body>
 </html>
