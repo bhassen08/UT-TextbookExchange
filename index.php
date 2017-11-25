@@ -1,7 +1,6 @@
 <?php
 session_start();
 ?>
-//t
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -20,6 +19,67 @@ and open the template in the editor.
         <link href="css/bootstrap.css" rel="stylesheet">
     </head>
     <body>
+        <!-- Modals Functionality -->
+        <?php
+            require_once(__DIR__ . '\inc\connect.php');
+            $db = DbConnection::getConnection();
+
+            if (isset($_POST['submitSignUp']))
+                {
+                    $userName = $db->real_escape_string($_POST['signUpInputUser']);
+                    $userPassword = $db-> real_escape_string($_POST['signUpInputPassword']);
+
+                    $checkIfUserUniqueQuery = "SELECT * FROM users WHERE username ='$userName'";
+                    $userUniqueResult = DbConnection::getConnection()->query($checkIfUserUniqueQuery) or die("BAD SQL: $checkIfUserUniqueQuery");
+
+                    if ($userUniqueResult->num_rows > 0)
+                        {
+                            $_SESSION['successfulSignUp'] = false;
+                        }
+                    else
+                        {
+                            $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
+                            $hashedPassword = hash('sha512', $saltedPassword);
+                            $addUserQuery = "INSERT INTO users (username, pw) VALUES ('$userName', '$hashedPassword')";
+
+                            $addUserResult = $db->query($addUserQuery) or die("BAD SQL: $addUserQuery");
+
+                            if ($addUserResult)
+                                {
+                                    $_SESSION['successfulSignUp'] = true;
+                                }
+                            else
+                                {
+                                    $_SESSION['successfulSignUp'] = false;
+                                }
+                            }
+                }
+
+            if (isset($_POST['submitLogIn']))
+                    {
+                        $userName = $db->real_escape_string($_POST['logInInputUser']);
+                        $userPassword = $db->real_escape_string($_POST['logInInputPassword']);
+
+                        $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
+                        $hashedPassword = hash('sha512', $saltedPassword);
+
+                        $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
+
+                        $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery");
+
+                        if ($validateCredentialsResult->num_rows > 0)
+                            {
+                                $_SESSION['user'] = $userName;
+                                $_SESSION['successfulLogIn'] = true;
+                            }
+                        else
+                            {
+                                $_SESSION['successfulLogIn'] = false;
+                            }
+                    }
+        ?>
+                    
+        
         <div class="container-fluid">
             <div style="padding-bottom: 85px;">
                 <nav id="nvbr" class="navbar navbar-expand-sm navbar-dark fixed-top">
@@ -129,61 +189,38 @@ and open the template in the editor.
             </div>
 
             <div class="row justify-content-sm-center">
+                <!-- Display Sign Up or Log In Result -->
                 <?php
-                if (isset($_POST['submitSignUp']))
-                    {
-                    require_once(__DIR__ . '\includes\DbConnection.php');
-
-                    $userName = mysqli_real_escape_string($db, $_POST['signUpInputUser']);
-                    $userPassword = mysqli_real_escape_string($db, $_POST['signUpInputPassword']);
-
-                    $checkIfUserUniqueQuery = "SELECT * FROM users WHERE username ='$userName'";
-                    $userUniqueResult = $db->query($checkIfUserUniqueQuery) or die("BAD SQL: $checkIfUserUniqueQuery");
-
-                    if ($userUniqueResult->num_rows > 0)
+                    if (isset($_SESSION['successfulSignUp']))
                         {
-                        echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Sorry, this username already exists.</h1>";
+                        if ($_SESSION['successfulSignUp'] == false)
+                            {
+                                echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Sorry, this username already exists.</h1>";
+                                unset($_SESSION['successfulSignUp']);
+                            }
+                        elseif ($_SESSION['successfulSignUp'] == true)
+                            {
+                                echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Your username has been created!</h1>";
+                                unset($_SESSION['successfulSignUp']);
+                            }
                         }
-                    else
+                    
+                    if (isset($_SESSION['successfulLogIn']))
                         {
-                        $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
-                        $hashedPassword = hash('sha512', $saltedPassword);
-                        $addUserQuery = "INSERT INTO users (username, pw) VALUES ('$userName', '$hashedPassword')";
-
-                        $addUserResult = mysqli_query($db, $addUserQuery) or die("BAD SQL: $addUserQuery");
-
-                        echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Your username has been created!</h1>";
+                        if ($_SESSION['successfulLogIn'] == false)
+                            {
+                                echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Invalid credentials.</h1>";
+                                unset($_SESSION['successfulLogIn']);
+                            }
+                        elseif ($_SESSION['successfulLogIn'] == true)
+                            {
+                                echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>You have successfully logged in!</h1>";
+                                unset($_SESSION['successfulLogIn']);
+                            }
                         }
-                    }
                 ?>
 
             </div>
-            <?php
-            if (isset($_POST['submitLogIn']))
-                {
-                require_once(__DIR__ . '\includes\DbConnection.php');
-
-                $userName = mysqli_real_escape_string($db, $_POST['logInInputUser']);
-                $userPassword = mysqli_real_escape_string($db, $_POST['logInInputPassword']);
-
-                $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
-                $hashedPassword = hash('sha512', $saltedPassword);
-
-                $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
-
-                $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery");
-
-                if ($validateCredentialsResult->num_rows > 0)
-                    {
-                    $_SESSION['user'] = $userName;
-                    echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>You have successfully logged in!</h1>";
-                    }
-                else
-                    {
-                    echo "<h1 align='center' style='color: #003e7e; padding-bottom: 30px;'>Invalid credentials.</h1>";
-                    }
-                }
-            ?>
 
             <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px; border-bottom: 10px solid #cecece;">
                 <div class="form-group col-sm-4">
@@ -201,9 +238,9 @@ and open the template in the editor.
             <?php
                 if (!empty($_SESSION['user']))
                     {
-                        require_once(__DIR__ . '\includes\InspiredTrends.php');
+                        require_once(__DIR__ . '\inc\InspiredTrends.php');
                 
-                        GenerateInspiredCards();
+                        generateInspiredCards();
                     }
             ?>
         </div>

@@ -5,8 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-    function GenerateInspiredCards()
+    function generateInspiredCards()
         {
             $cards = <<<HTML
             <div class="justify-content-sm-center" style="height: 500px;">

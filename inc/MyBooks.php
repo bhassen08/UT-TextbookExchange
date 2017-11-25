@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-    function GenerateMyBooks()
+    function generateMyBooks()
         {
             $generateHTML = <<<HTML
             <div class="row justify-content-sm-center">
