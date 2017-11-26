@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <!--
@@ -21,7 +23,7 @@ and open the template in the editor.
     <body>
         <!-- Modals Functionality -->
         <?php
-            require_once(__DIR__ . '\inc\connect.php');
+            require_once(__DIR__ . '/inc/connect.php');
             $db = DbConnection::getConnection();
 
             if (isset($_POST['submitSignUp']))
@@ -232,7 +234,7 @@ and open the template in the editor.
             <?php
                 if (!empty($_SESSION['user']))
                     {
-                        require_once(__DIR__ . '\inc\InspiredTrends.php');
+                        require_once(__DIR__ . '/inc/InspiredTrends.php');
                 
                         generateInspiredCards();
                     }
