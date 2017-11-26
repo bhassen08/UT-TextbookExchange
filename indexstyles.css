@@ -3,56 +3,10 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
-    Created on : Oct 8, 2017, 9:32:17 PM
-    Author     : w00t1337
-*/
 
-/*video#bgVid { 
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: 50;
-    height: 50;
-    z-index: -100;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    background: url(polina.jpg) no-repeat;
-    background-size: cover; 
-}*/
-
-video#bgVid 
-{ 
-    width: 100%;
-    height: 720px;
-    position: relative;
-    z-index: -100;
-}
-
-nav#nvbr
+nav#nav-bar
 {
     background-color: #003e7e;
-}
-
-.sidebyside
-{
-/*    display: inline-block;*/
-    color: white
-}
-
-div#searchBarDiv 
-{
-    width: 400px;
-    height: 45px;
-    position: absolute;
-    z-index: 2;
-    left: 40%;
-    top: 330px;
-    color: white;
 }
 
 div#bootstrap-overrides {width:500px; margin: 0 auto;}
@@ -70,3 +24,21 @@ div#bootstrap-overrides.accordion-toggle.active {color: #ff0000;}
 .accordion-toggle.active:before{display:none;}
 .accordion-content {display: none;}
 .accordion-toggle.active {color: #ff0000;}
+
+hr.content-divider
+{
+    border-top: 3px solid #cecece;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.footer
+{
+    position: absolute;
+}
+
+.footer-menu-items
+{
+    text-align: center; 
+    color: rgb(128, 144, 165);
+}

@@ -77,12 +77,11 @@ and open the template in the editor.
                                 $_SESSION['successfulLogIn'] = false;
                             }
                     }
-        ?>
-                    
+        ?>  
         
         <div class="container-fluid">
             <div style="padding-bottom: 85px;">
-                <nav id="nvbr" class="navbar navbar-expand-sm navbar-dark fixed-top">
+                <nav id="nav-bar" class="navbar navbar-expand-sm navbar-dark fixed-top">
                     <!-- Brand/logo -->
                     <div>
                         <img class="navbar-brand" src="img/ut_logo_shield.png"></img>
@@ -93,11 +92,7 @@ and open the template in the editor.
                             <a class="nav-link" href="#">UT Textbook Exchange</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav ml-auto"
-                        <li class="nav-item">
-                            <a class="nav-link" href="#help">Help</a>
-                        </li>
-                        
+                    <ul class="navbar-nav ml-auto">
                         <?php
                             if (!empty($_SESSION['user']))
                                 {
@@ -219,10 +214,9 @@ and open the template in the editor.
                             }
                         }
                 ?>
-
             </div>
 
-            <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px; border-bottom: 10px solid #cecece;">
+            <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px;">
                 <div class="form-group col-sm-4">
                     <input type="search" class="form-control" placeholder="Search">
                 </div>
@@ -234,7 +228,7 @@ and open the template in the editor.
                     </select>
                 </div>
             </div>
-
+            
             <?php
                 if (!empty($_SESSION['user']))
                     {
@@ -243,6 +237,21 @@ and open the template in the editor.
                         generateInspiredCards();
                     }
             ?>
+            
+            <hr class="content-divider">
+            
+            <footer>
+                <div id="footer">
+                    <div class="navbar navbar-fixed-bottom navbar-expand-sm navbar-dark" style="padding-top: 50px; padding-bottom: 50px; background-color: #003e7e;">
+                        <ul class="nav navbar-nav mx-auto">
+                            <li><a class="footer-menu-items nav-link" href="#">About</a></li>
+                            <li><a class="footer-menu-items nav-link" href="#">Help</a></li>
+                            <li><a class="footer-menu-items nav-link" href="#">Contact</a></li>
+                            <li><a class="footer-menu-items nav-link" href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
         </div>
     </body>
 </html>

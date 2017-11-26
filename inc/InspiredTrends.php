@@ -8,6 +8,7 @@
     function generateInspiredCards()
         {
             $cards = <<<HTML
+            <hr class="content-divider">
             <div class="justify-content-sm-center" style="height: 500px;">
                 <div>
                     <h1 align="center" style="color: #003e7e; padding: 25px;">Inspired by your shopping trends</h1>
