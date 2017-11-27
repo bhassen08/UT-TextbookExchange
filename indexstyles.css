@@ -32,9 +32,22 @@ hr.content-divider
     margin-bottom: 0px;
 }
 
-.footer
+body
 {
-    position: absolute;
+    min-height: 100%;
+    margin: 0;
+}
+
+#wrapper
+{
+    min-height: 100%;
+    margin-bottom: -81px;  /* This needs to be the negative value of the footer height. */
+}
+
+#footer
+{
+    background-color: #003e7e;
+    height: 81px;
 }
 
 .footer-menu-items
