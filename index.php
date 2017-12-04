@@ -25,8 +25,16 @@ and open the template in the editor.
             
             <!-- Include navigation bar -->
             <?php
+                require_once "vendor/autoload.php";
                 include "./inc/navbar.php";
             ?>
+            
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 style="color: #003e7e;" class="display-4">Search</h1>
+                    <p class="lead">“Powerful you have become, the dark side I sense in you.” - Yoda</p>
+                </div>
+            </div>
             
                 <div class="row justify-content-sm-center">
                     <!-- Display Sign Up or Log In Result -->
@@ -60,19 +68,22 @@ and open the template in the editor.
                         }
                     ?>
                 </div>
+            <form action="search.php" method="POST" role="form">
+                <div class="form-row row justify-content-sm-center align-items-center" style="height: 300px;">
 
-                <div class="form-row row justify-content-sm-center align-items-center" style="height: 500px;">
                     <div class="form-group col-sm-4">
-                        <input type="search" class="form-control" placeholder="Search">
+                        <input type="search" name="search" class="form-control" placeholder="Search for books by ISBN13, Author, or Title...">
                     </div>
-                    <div class="form-group col-sm-1">
-                        <select class="custom-select">
-                            <option selected>ISBN13</option>
+<!--                    <div class="form-group col-sm-1">
+                        <select name="searchType" class="custom-select">
+                            <option value="1" selected>ISBN13</option>
                             <option value="2">Author</option>
                             <option value="3">Title</option>
                         </select>
-                    </div>
+                    </div>-->
+
                 </div>
+            </form>
 
                 <?php
                 if (!empty($_SESSION['user']))
@@ -82,12 +93,9 @@ and open the template in the editor.
                     }
                 ?>
 
-                <hr class="content-divider">
-
                 <?php
                     include "./inc/footer.php";
                 ?>
             </div>
-        </div>
     </body>
 </html>

@@ -63,12 +63,12 @@
         <nav id="nav-bar" class="navbar navbar-expand-sm navbar-dark fixed-top">
             <!-- Brand/logo -->
             <div>
-                <img class="navbar-brand" src="img/ut_logo_shield.png"></img>
+                <img class="navbar-brand" src="img/ut_logo_shield.png" onclick="window.location='index.php'"></img>
                 <!-- Links -->
             </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">UT Textbook Exchange</a>
+                    <a class="nav-link active" href="#" onclick="window.location='index.php'">UT Textbook Exchange</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

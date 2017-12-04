@@ -1,3 +1,4 @@
+<hr class="content-divider">
 <footer>
     <div id="footer">
         <div class="navbar navbar-fixed-bottom navbar-expand-sm navbar-dark" style="height: 81px;">
