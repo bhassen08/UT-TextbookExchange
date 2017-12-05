@@ -42,45 +42,34 @@
                             $service = new Google_Service_Books($client);
 
                             // No optional parameters.
-                            $optParams = [];
-
-                            $rows = $validateCredentialsResult->fetch_row();
-
-        //                    foreach ($rows as $row)
-        //                        {
-        //                        
-        //                        }
-                                    $results = $service->volumes->listVolumes($rows[0], $optParams);
-
-                //                    echo '<div class="row justify-content-sm-center card-deck">';
-                //                    echo '<div class="card col-sm-3" style="width: 20px;">';
-                //                    echo '<img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="" alt="Card image cap"></img>';
-                //                    echo '<div class="card-body">';
-                //                    echo '<h4 class="card-title">Bad Book</h4>';
-                //                    echo '<p class="card-text"><b>Author(s):</b> John Doe<br><b>ISBN13:</b> 3820423423434<br><b>ISBN10:</b> 3820423434<br><b>Publisher:</b> 1337 Publications<br><b>Description:</b> This book is not good, not joking.</p>';
-                //                    echo '<div class="btn-toolbar">';
-                //                    echo '<button class="btn btn-primary" onclick="unlist()">Unlist</button>';
-                //                    echo '</div>';
-                //                    echo '</div>';
-                //                    echo '</div>';
-                //                    echo '</div>';
-                //                    echo '</div>';
-
-
-                                    // Uncomment when done with modifying layout
-                                    echo '<div class="row justify-content-sm-center card-deck">';
-                                    echo '<div class="card col-sm-3" style="width: 20px;">';
-                                    echo '<img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="' . $results[0]['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Card image cap"></img>';
-                                    echo '<div class="card-body">';
-                                    echo '<h4 class="card-title">' . $results[0]['volumeInfo']['title'] . '</h4>';
-                                    echo '<p class="card-text"><b>Author(s):</b> ' . implode(",", $results[0]['volumeInfo']['authors']) . '<br><b>ISBN13:</b> ' . $results[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] . '<br><b>ISBN10:</b> ' . $results[0]['volumeInfo']['industryIdentifiers'][1]['identifier'] . '<br><b>Publisher:</b> ' . $results[0]['volumeInfo']['publisher'] . '<br><b>Description:</b> ' . $results[0]['volumeInfo']['description'] . '</p>';
-                                    echo '<div class="btn-toolbar">';
-                                    echo '<button class="btn btn-primary" onclick="unlist()">Unlist</button>';
+                            $optParams = array('maxResults' => 1);
+                            
+                            echo '<section class="col-xs-12 col-sm-6 col-md-12">';
+                            foreach ($validateCredentialsResult->fetch_row() as $row)
+                                {
+                                    $result = $service->volumes->listVolumes($row, $optParams);
+                                    
+                                    echo '<article class="search-result row">';
+                                    echo '<div class="col-xs-12 col-sm-12 col-md-2">';
+                                    echo '<a href="#" title="Lorem ipsum" class="thumbnail"><img class="mx-auto d-block" src="' . $result[0]['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Lorem ipsum" /></a>';
                                     echo '</div>';
+                                    echo '<div class="col-xs-12 col-sm-12 col-md-3">';
+                                    echo '<ul class="meta-search">';
+                                    echo '<li><span>Title: ' . $result[0]['volumeInfo']['title'] . '</span></li>';
+                                    echo '<li><span>Author:  ' . implode(",", $result[0]['volumeInfo']['authors']) . '</span></li>';
+                                    echo '<li><span>Publisher:  ' . $result[0]['volumeInfo']['publisher'] . '</span></li>';
+                                    echo '<li><span>ISBN13:  ' . $result[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] . '</span></li>';
+                                    echo '<li><span>ISBN10:  ' . $result[0]['volumeInfo']['industryIdentifiers'][1]['identifier'] . '</span></li>';
+                                    echo '</ul>';
                                     echo '</div>';
+                                    echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
+                                    echo '<h3><a href="#" title="">Description</a></h3>';
+                                    echo '<p>' . $result[0]['volumeInfo']['description'] . '</p>';
                                     echo '</div>';
-                                    echo '</div>';
-                                    echo '</div>';
+                                    echo '</article>';
+                                        
+                                }
+                            echo '</section>';
                         }
                     else
                         {

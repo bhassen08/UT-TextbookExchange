@@ -42,6 +42,8 @@ error_reporting(E_ALL);
                     <p style="color: #003e7e; padding-bottom: 30px;">1-1 of 1 result(s) for "9780262033848"</p>
                 </div>
             </div>-->
+
+               
             
             <?php
             
@@ -70,6 +72,8 @@ error_reporting(E_ALL);
             
             // Add input validation here
             $searchValue = $_POST['search'];
+            
+            // Is this an ISBN #?
             $searchValidated = preg_replace("/[^a-zA-Z0-9]+/", "", $searchValue);
             
             $results = $service->volumes->listVolumes($searchValidated, $optParams);
@@ -77,54 +81,57 @@ error_reporting(E_ALL);
             // Return only one result if ISBN, we don't care about similar numbers here.
             if (is_numeric($searchValidated))
                 {
-                    echo '<div class="row">';
-                    echo '<div class="col">';
-                    echo '<p style="color: #003e7e; padding-bottom: 30px;">1-1 of 1 result(s) for "' . $searchValue . '"</p>';
+                    echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">1</strong> result was found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup>';
+                    echo '<section class="col-xs-12 col-sm-6 col-md-12">';
+                    echo '<article class="search-result row">';
+                    echo '<div class="col-xs-12 col-sm-12 col-md-2">';
+                    echo '<a href="#" title="Lorem ipsum" class="thumbnail"><img class="mx-auto d-block" src="' . $results[0]['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Lorem ipsum" /></a>';
                     echo '</div>';
+                    echo '<div class="col-xs-12 col-sm-12 col-md-3">';
+                    echo '<ul class="meta-search">';
+                    echo '<li><span>Title: ' . $results[0]['volumeInfo']['title'] . '</span></li>';
+                    echo '<li><span>Author:  ' . implode(",", $results[0]['volumeInfo']['authors']) . '</span></li>';
+                    echo '<li><span>Publisher:  ' . $results[0]['volumeInfo']['publisher'] . '</span></li>';
+                    echo '<li><span>ISBN13:  ' . $results[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] . '</span></li>';
+                    echo '<li><span>ISBN10:  ' . $results[0]['volumeInfo']['industryIdentifiers'][1]['identifier'] . '</span></li>';
+                    echo '</ul>';
                     echo '</div>';
-
-                    echo '<div class="justify-content-sm-center align-items-center" style="height: 500px;">';
-                    echo '<div class="row justify-content-sm-center card-deck">';
-                    echo '<div class="card col-sm-3" style="width: 20px;">';
-                    echo '<img style="max-width: 25%; max-height: 50%;" class="card-img-top d-block mx-auto" src="' . $results[0]['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Card image cap"></img>';
-                    echo '<div class="card-body">';
-                    echo '<h4 class="card-title">' . $results[0]['volumeInfo']['title'] . '</h4>';
-                    echo '<p class="card-text"><b>Author(s):</b> ' . implode(",", $results[0]['volumeInfo']['authors']) . '<br><b>ISBN13:</b> ' . $results[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] . '<br><b>ISBN10:</b> ' . $results[0]['volumeInfo']['industryIdentifiers'][1]['identifier'] . '<br><b>Publisher:</b> ' . $results[0]['volumeInfo']['publisher'] . '<br><b>Description:</b> ' . $results[0]['volumeInfo']['description'] . '</p>';
-                    echo '<div class="row">';
-                    echo '<div class="col-sm-4">';
-                    echo '<button type="button" class="btn btn-primary btn-sm" onclick="">(2) For Sale</button>';
+                    echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
+                    echo '<h3><a href="#" title="">Description</a></h3>';
+                    echo '<p>' . $results[0]['volumeInfo']['description'] . '</p>';
                     echo '</div>';
-                    echo '<div class="col-sm-4">';
-                    echo '<button type="button" class="btn btn-secondary btn-sm" onclick="">(0) For Rent</button>';
-                    echo '</div>';
-                    echo '<div class="col-sm-4">';
-                    echo '<button type="button" class="btn btn-secondary btn-sm" onclick="">(0) For Trade</button>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
+                    echo '</article>';
+                    echo '</section>';
                 }
             else
                 {
+                    echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">' . $results->totalItems .'</strong> results were found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup>';
+                    echo '<section class="col-xs-12 col-sm-6 col-md-12">';
+
                     foreach ($results as $item)
                     {
-    //                    $imgLink = $item['volumeinfo']['imageLinks']['smallThumbnail'];
-    ////                    echo "<li>";
-    //                    echo $item['volumeinfo']['title'], "<br /> \n";
-    ////                    echo $item['volumeinfo']['imageLinks']['smallThumbnail'];
-    //                    echo "<img src='$imgLink'>";
-    //                    echo '<a href="' . $item['volumeInfo']['previewLink'] . '">' . $item['volumeInfo']['previewLink'] . '</a>';
-                        echo '<img src="' . $item['volumeInfo']['imageLinks']['smallThumbnail'] . '"></img>';
-    //                    echo '<pre>';
-    //                    // useful for debugging and checking which fields actually are in each item of the response
-    //                    var_dump($item);
-    //                    echo '</pre>';
+                        echo '<article class="search-result row">';
+                        echo '<div class="col-xs-12 col-sm-12 col-md-2">';
+                        echo '<a href="#" title="Lorem ipsum" class="thumbnail"><img class="mx-auto d-block" src="' . $item['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Lorem ipsum" /></a>';
+                        echo '</div>';
+                        echo '<div class="col-xs-12 col-sm-12 col-md-3">';
+                        echo '<ul class="meta-search">';
+                        echo '<li><span>Title: ' . $item['volumeInfo']['title'] . '</span></li>';
+                        echo '<li><span>Author:  ' . implode(",", $item['volumeInfo']['authors']) . '</span></li>';
+                        echo '<li><span>Publisher:  ' . $item['volumeInfo']['publisher'] . '</span></li>';
+                        echo '<li><span>ISBN13:  ' . $item['volumeInfo']['industryIdentifiers'][0]['identifier'] . '</span></li>';
+                        echo '<li><span>ISBN10:  ' . $item['volumeInfo']['industryIdentifiers'][1]['identifier'] . '</span></li>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
+                        echo '<h3><a href="#" title="">Description</a></h3>';
+                        echo '<p>' . $item['volumeInfo']['description'] . '</p>';
+                        echo '</div>';
+                        echo '</article>';
                     }
+
+                    echo '</section>';
                 }
-            
-//            echo "</ul></p>";
             ?>
             <?php
             include "./inc/footer.php";
