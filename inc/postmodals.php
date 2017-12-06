@@ -156,7 +156,7 @@
                 <div class="modal-body">
                     <div class="form-group row col-sm-12">
                         <label for="isbnTrade" class="col-sm-3 col-form-label">ISBN13:</label>
-                        <input type="text" id="isbnRent" name="isbnTrade" class="form-control col-sm-9" placeholder="" required>
+                        <input type="text" id="isbnTrade" name="isbnTrade" class="form-control col-sm-9" placeholder="" required>
                     </div>
                     <fieldset class="form-group">
                         <div class="row">
@@ -197,11 +197,11 @@
                     </fieldset>
                     <div class="form-group">
                         <label for="tradeSemesters">Which semesters would you like to list this book for trade?</label>
-                        <select multiple class="form-control" id="tradeSemesters">
-                            <option>Spring 2018</option>
-                            <option>Summer 2018</option>
-                            <option>Fall 2018</option>
-                            <option>Spring 2019</option>
+                        <select multiple class="form-control" id="tradeSemesters" name="tradeSemesters[]">
+                            <option value="1">Spring 2018</option>
+                            <option value="2">Summer 2018</option>
+                            <option value="3">Fall 2018</option>
+                            <option value="4">Spring 2019</option>
                         </select>
                     </div>
                 </div>
@@ -228,96 +228,134 @@
             $userName = $db->real_escape_string($_SESSION['user']);
             
             // GET USER ID
-            $getUserIdQuery = "SELECT txtbk_exchange_proto.users.id FROM txtbk_exchange_proto.users WHERE username = '$userName'";
+            $getUserIdQuery = "SELECT users.id FROM users WHERE username = '$userName'";
             $userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
             
             if ($userIdResult->num_rows !== 1)
                 {
-                    echo "sorry, could not find user";
+                    echo "Sorry, could not find user";
                 }
             else
                 {
                     $userId = $userIdResult->fetch_row();
                     
-                    $addBookToDbQuery = "INSERT INTO txtbk_exchange_proto.keeper (userid, available, bookcondition, sellprice, forsale, isbn13) VALUES ('$userId[0]', 1, '$condition', '$sellPrice', 1, '$isbn');";
+                    $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, sellprice, isbn13) VALUES ('$userId[0]', 1, '$condition', '$sellPrice', '$isbn');";
                     $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
-                    
-                    
-                    echo "congrats, you are winner.";
                 }
         }
-            
-            
-            
-            
-            
-//            $userName = $db->real_escape_string($_POST['logInInputUser']);
-//            $userPassword = $db->real_escape_string($_POST['logInInputPassword']);
-//
-//            $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
-//            $hashedPassword = hash('sha512', $saltedPassword);
-//
-//            $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
-//
-//            $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery");
-//
-//            if ($validateCredentialsResult->num_rows > 0)
-//                {
-//                    $_SESSION['user'] = $userName;
-//                    $_SESSION['successfulLogIn'] = true;
-//                }
-//            else
-//                {
-//                    $_SESSION['successfulLogIn'] = false;
-//                }
         
         if (isset($_POST['rentSubmit']))
         {
-            echo 'RENTTTT';
-//            $userName = $db->real_escape_string($_POST['logInInputUser']);
-//            $userPassword = $db->real_escape_string($_POST['logInInputPassword']);
-//
-//            $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
-//            $hashedPassword = hash('sha512', $saltedPassword);
-//
-//            $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
-//
-//            $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery");
-//
-//            if ($validateCredentialsResult->num_rows > 0)
-//                {
-//                    $_SESSION['user'] = $userName;
-//                    $_SESSION['successfulLogIn'] = true;
-//                }
-//            else
-//                {
-//                    $_SESSION['successfulLogIn'] = false;
-//                }
+            $isbn = $db->real_escape_string($_POST['isbnRent']);
+            $rentPrice = $db->real_escape_string($_POST['priceRent']);
+            $condition = $db->real_escape_string($_POST['conditionRentRadio']);
+            $userName = $db->real_escape_string($_SESSION['user']);
+            
+            // GET USER ID
+            $getUserIdQuery = "SELECT users.id FROM users WHERE username = '$userName'";
+            $userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
+            
+            if ($userIdResult->num_rows !== 1)
+                {
+                    echo "Sorry, could not find user";
+                }
+            else
+                {
+                    $userId = $userIdResult->fetch_row();
+
+                    // Instantiating a new array with 4 values (for each semester) at default 0 (0 means not available).
+                    $semesterAvailability = array_fill(0, 4, 0);
+
+                    foreach ($_POST['tradeSemesters'] as $semester)
+                        {
+                            switch ($semester)
+                                {
+                                    case 1:
+                                        // Setting the first index for Spring 2018 to 1 (available).
+                                        $semesterAvailability[0] = 1;
+                                        break;
+                                    case 2: 
+                                        // Setting the second index for Summer 2018 to 1 (available).
+                                        $semesterAvailability[1] = 1;
+                                        break;
+                                    case 3:
+                                        // Setting the third index for Fall 2018 to 1 (available).
+                                        $semesterAvailability[2] = 1;
+                                        break;
+                                    case 4:
+                                        // Setting the fourth index for Spring 2019 to 1 (available).
+                                        $semesterAvailability[3] = 1;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                        }
+
+                    // Insert semester availability data into database.
+                    $addSemesterAvailQuery = "INSERT INTO semester_avail (spring2018, summer2018, fall2018, spring2019) VALUES ('$semesterAvailability[0]', '$semesterAvailability[1]', '$semesterAvailability[2]', '$semesterAvailability[3]');";
+                    $db->query($addSemesterAvailQuery) or die("BAD SQL: $addSemesterAvailQuery");
+                    $semesterTableId = $db->insert_id;
+
+                    // Insert keeper data into database and includes semester availability id.
+                    $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, isbn13, rentPrice, tradesemesterid) VALUES ('$userId[0]', 1, '$condition', '$isbn', '$rentPrice', '$semesterTableId');";
+                    $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
+                }
         }
         
         if (isset($_POST['tradeSubmit']))
         {
-            echo 'TRADEEE';
-//            $userName = $db->real_escape_string($_POST['logInInputUser']);
-//            $userPassword = $db->real_escape_string($_POST['logInInputPassword']);
-//
-//            $saltedPassword = "kasjdlfad;lfkjas;ldkfjasdf" . $userPassword;
-//            $hashedPassword = hash('sha512', $saltedPassword);
-//
-//            $validateCredentialsQuery = "SELECT * FROM users WHERE username = '$userName' AND pw = '$hashedPassword'";
-//
-//            $validateCredentialsResult = $db->query($validateCredentialsQuery) or die("BAD SQL: $validateCredentialsQuery");
-//
-//            if ($validateCredentialsResult->num_rows > 0)
-//                {
-//                    $_SESSION['user'] = $userName;
-//                    $_SESSION['successfulLogIn'] = true;
-//                }
-//            else
-//                {
-//                    $_SESSION['successfulLogIn'] = false;
-//                }
+            $isbn = $db->real_escape_string($_POST['isbnTrade']);
+            $condition = $db->real_escape_string($_POST['conditionTradeRadio']);
+            $userName = $db->real_escape_string($_SESSION['user']);
+            
+            // GET USER ID
+            $getUserIdQuery = "SELECT users.id FROM users WHERE username = '$userName'";
+            $userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
+            
+            if ($userIdResult->num_rows !== 1)
+                {
+                    echo "Sorry, could not find user";
+                }
+            else
+                {
+                    $userId = $userIdResult->fetch_row();
+
+                    // Instantiating a new array with 4 values (for each semester) at default 0 (0 means not available).
+                    $semesterAvailability = array_fill(0, 4, 0);
+
+                    foreach ($_POST['tradeSemesters'] as $semester)
+                        {
+                            switch ($semester)
+                                {
+                                    case 1:
+                                        // Setting the first index for Spring 2018 to 1 (available).
+                                        $semesterAvailability[0] = 1;
+                                        break;
+                                    case 2: 
+                                        // Setting the second index for Summer 2018 to 1 (available).
+                                        $semesterAvailability[1] = 1;
+                                        break;
+                                    case 3:
+                                        // Setting the third index for Fall 2018 to 1 (available).
+                                        $semesterAvailability[2] = 1;
+                                        break;
+                                    case 4:
+                                        // Setting the fourth index for Spring 2019 to 1 (available).
+                                        $semesterAvailability[3] = 1;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                        }
+
+                    // Insert semester availability data into database.
+                    $addSemesterAvailQuery = "INSERT INTO semester_avail (spring2018, summer2018, fall2018, spring2019) VALUES ('$semesterAvailability[0]', '$semesterAvailability[1]', '$semesterAvailability[2]', '$semesterAvailability[3]');";
+                    $db->query($addSemesterAvailQuery) or die("BAD SQL: $addSemesterAvailQuery");
+                    $semesterTableId = $db->insert_id;
+
+                    // Insert keeper data into database and includes semester availability id.
+                    $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, isbn13, fortrade, tradesemesterid) VALUES ('$userId[0]', 1, '$condition', '$isbn', 1, '$semesterTableId');";
+                    $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
+                }
         }
-
-
 ?>

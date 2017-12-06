@@ -20,15 +20,12 @@ error_reporting(E_ALL);
         <?php
         include "./inc/navbar.php";
         require_once "vendor/autoload.php";
+        
+        require_once(__DIR__ . '\inc\mybookcontent.php');
         ?>
 
         <div class="wrapper">
 
-            <!--                <div class="row justify-content-sm-center align-items-center">
-                                <div class="col">
-                                    <h1 style="color: #003e7e; text-align: center; padding-bottom: 30px;">My Books</h1>
-                                </div>
-                            </div>-->
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 style="color: #003e7e;" class="display-4">My Books</h1>
@@ -40,151 +37,101 @@ error_reporting(E_ALL);
                     <div class="col-sm-2">
                         <ul class="nav flex-column nav-pills">
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link active new-posting" href="#">New Posting</a>
+                                <a style="text-align: center;" class="nav-link active new-posting" href="mybooks.php?newpost=true">New Posting</a>
                             </li>
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link for-sale" href="#">For Sale</a>
+                                <a style="text-align: center;" class="nav-link for-sale" href="mybooks.php?forsale=true">For Sale</a>
                             </li>
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link for-rent" href="#">For Rent</a>
+                                <a style="text-align: center;" class="nav-link for-rent" href="mybooks.php?forrent=true">For Rent</a>
                             </li>
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link trade" href="#">Trade</a>
+                                <a style="text-align: center;" class="nav-link trade" href="mybooks.php?fortrade=true">Trade</a>
                             </li>
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link purchased" href="#">Purchased</a>
+                                <a style="text-align: center;" class="nav-link purchased" href="mybooks.php?purchased=true">Purchased</a>
                             </li>
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link im-renting" href="#">I'm Renting</a>
+                                <a style="text-align: center;" class="nav-link im-renting" href="mybooks.php?renting=true">I'm Renting</a>
                             </li>
                         </ul>
                     </div>
-
-                    <script>
-                        $(function () {
-                            $("a.new-posting").click(function ()
-                            {
-                                $(".show-trade").hide();
-                                $(".show-im-renting").hide();
-                                $(".show-purchased").hide();
-                                $(".show-for-rent").hide();
-                                $(".show-for-sale").hide();
-                                $(".show-new-posting").show();
-                                return false; // prevent default browser refresh on "#" link
-                            });
-
-                            $("a.for-sale").click(function ()
-                            {
-                                $(".show-new-posting").hide();
-                                $(".show-trade").hide();
-                                $(".show-im-renting").hide();
-                                $(".show-purchased").hide();
-                                $(".show-for-rent").hide();
-                                $(".show-for-sale").show();
-                                return false; // prevent default browser refresh on "#" link
-                            });
-
-                            $("a.for-rent").click(function ()
-                            {
-                                $(".show-new-posting").hide();
-                                $(".show-trade").hide();
-                                $(".show-im-renting").hide();
-                                $(".show-purchased").hide();
-                                $(".show-for-sale").hide();
-                                $(".show-for-rent").show();
-                                return false; // prevent default browser refresh on "#" link
-                            });
-
-                            $("a.trade").click(function ()
-                            {
-                                $(".show-im-renting").hide();
-                                $(".show-purchased").hide();
-                                $(".show-for-rent").hide();
-                                $(".show-for-sale").hide();
-                                $(".show-new-posting").hide();
-                                $(".show-trade").show();
-                                return false; // prevent default browser refresh on "#" link
-                            });
-
-                            $("a.purchased").click(function ()
-                            {
-                                $(".show-new-posting").hide();
-                                $(".show-trade").hide();
-                                $(".show-im-renting").hide();
-                                $(".show-for-sale").hide();
-                                $(".show-for-rent").hide();
-                                $(".show-purchased").show();
-                                return false; // prevent default browser refresh on "#" link
-                            });
-
-                            $("a.im-renting").click(function ()
-                            {
-                                $(".show-new-posting").hide();
-                                $(".show-trade").hide();
-                                $(".show-for-sale").hide();
-                                $(".show-purchased").hide();
-                                $(".show-for-rent").hide();
-                                $(".show-im-renting").show();
-                                return false; // prevent default browser refresh on "#" link
-                            });
-                        });
-                    </script>
-
-                    <!--                    <div class="col-sm-11 show-for-sale" style="display: none;">
-                                            <p>I'm selling this...</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae aliquet lacus. Etiam in porta massa, sit amet aliquam libero. Nam congue dapibus rutrum. Donec lorem tellus, faucibus vitae euismod sit amet, lacinia eget orci. Nunc mattis commodo tortor nec pulvinar. Duis vehicula mi in nulla laoreet, et pulvinar elit eleifend. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut et purus at ante vulputate finibus. Donec sem nunc, hendrerit vel elit consequat, condimentum gravida ex. Nulla mattis magna sit amet sem laoreet, at tempus magna viverra. Aenean vel rhoncus neque. Donec sed leo efficitur, rutrum augue vel, semper odio. Nam ac lectus at urna gravida laoreet sit amet at justo. Ut sagittis justo gravida diam luctus, vel ultricies orci imperdiet. Quisque fringilla urna quis mollis venenatis.</p>
-                                        </div>
-                                        
-                                        <div class="col-sm-11 show-for-rent" style="display: none;">
-                                            <p>I'm renting this out...</p>
-                                        </div>
-                                        
-                                        <div class="col-sm-11 show-im-buying" style="display: none;">
-                                            <p>I'm buying this...</p>
-                                        </div>
-                                        
-                                        <div class="col-sm-11 show-im-renting" style="display: none;">
-                                            <p>I'm renting this...</p>
-                                        </div>-->
-
-                    <!-- get rid of this above crap -->
+                    
                     <div class="col-sm-10 d-flex align-items-center">
-
-                        <!-- TODO: HOW DO I CENTER THIS???? -->
-                        <div class="container show-new-posting" style="display: none;">
-                            <div class="row align-items-end">
-                                <div class="col-sm-4">
-                                    <li class="btn btn-outline-primary">
-                                        <a style="text-align: center;" data-toggle="modal" data-target="#listSellModal" class="nav-link post-sell">Sell</a>
-                                    </li>
-                                </div>
-                                <div class="col-sm-4  justify-content-center">
-                                    <li class="btn btn-outline-primary">
-                                        <a style="text-align: center;" data-toggle="modal" data-target="#listRentModal" class="nav-link post-rent">Rent</a>
-                                    </li>
-                                </div>
-                                <div class="col-sm-4  justify-content-center">
-                                    <li class="btn btn-outline-primary">
-                                        <a style="text-align: center;" data-toggle="modal" data-target="#listTradeModal" class="nav-link post-trade">Trade</a>
-                                    </li>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-11 show-for-sale" style="display: none;">
+                        <div class="col-sm-11 show-for-sale">
                             <?php
-                            require_once(__DIR__ . '\inc\mybookcontent.php');
-
-                            forSale();
+                                require_once(__DIR__ . '\inc\mybookcontent.php');
+                                
+                                if (isset($_GET['newpost']))
+                                    {
+                                        echo '<div class="container show-new-posting">';
+                                        echo '<div class="row align-items-end">';
+                                        echo '<div class="col-sm-4">';
+                                        echo '<li class="btn btn-outline-primary">';
+                                        echo '<a style="text-align: center;" data-toggle="modal" data-target="#listSellModal" class="nav-link post-sell">Sell</a>';
+                                        echo '</li>';
+                                        echo '</div>';
+                                        echo '<div class="col-sm-4  justify-content-center">';
+                                        echo '<li class="btn btn-outline-primary">';
+                                        echo '<a style="text-align: center;" data-toggle="modal" data-target="#listRentModal" class="nav-link post-rent">Rent</a>';
+                                        echo '</li>';
+                                        echo '</div>';
+                                        echo '<div class="col-sm-4  justify-content-center">';
+                                        echo '<li class="btn btn-outline-primary">';
+                                        echo '<a style="text-align: center;" data-toggle="modal" data-target="#listTradeModal" class="nav-link post-trade">Trade</a>';
+                                        echo '</li>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.new-posting").addClass("active");';
+                                        echo '</script>';
+                                        
+                                    }
+                                elseif (isset($_GET['forsale']))
+                                    {
+                                        myBooksContent('forsale');
+                                        
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.for-sale").addClass("active");';
+                                        echo '</script>';
+                                    }
+                                elseif (isset($_GET['forrent']))
+                                    {
+                                        myBooksContent('forrent');
+                                        
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.for-rent").addClass("active");';
+                                        echo '</script>';
+                                    }
+                                elseif (isset($_GET['fortrade']))
+                                    {
+                                        myBooksContent('fortrade');
+                                        
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.trade").addClass("active");';
+                                        echo '</script>';
+                                    }
+                                elseif (isset($_GET['purchased']))
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.purchased").addClass("active");';
+                                        echo '</script>';
+                                    }
+                                elseif (isset($_GET['renting']))
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.im-renting").addClass("active");';
+                                        echo '</script>';
+                                    }
                             ?>
-                        </div>
-
-                        <div class="col-sm-11 show-trade" style="display: none;">
-                            <p>I'm trading...</p>
-                        </div>
-
-                        <div class="col-sm-11 show-for-rent" style="display: none;">
-                            <p>I'm renting this out...</p>
                         </div>
 
                         <div class="col-sm-11 show-purchased" style="display: none;">

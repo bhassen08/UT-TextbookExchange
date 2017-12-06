@@ -16,14 +16,16 @@ error_reporting(E_ALL);
         <link href="css/bootstrap.css" rel="stylesheet">
     </head>
     <body>
-        <!-- Include navigation bar -->
-
-
         <div id="wrapper">
+            
             <?php
+            // Include navigation bar
             include "./inc/navbar.php";
+            
+            // Includes the libraries installed by Composer.
             require_once "vendor/autoload.php";
             ?>
+            
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 style="color: #003e7e;" class="display-4">Search Results</h1>
@@ -31,31 +33,11 @@ error_reporting(E_ALL);
                 </div>
             </div>
             
-<!--            <div class="row justify-content-sm-center align-items-center">
-                <div class="col">
-                    <h1 style="color: #003e7e; text-align: center; padding-bottom: 30px;">Search Results</h1>
-                </div>
-            </div>-->
-            
-<!--            <div class="row">
-                <div class="col">
-                    <p style="color: #003e7e; padding-bottom: 30px;">1-1 of 1 result(s) for "9780262033848"</p>
-                </div>
-            </div>-->
-
-               
-            
             <?php
-            
-//             echo var_dump(openssl_get_cert_locations());
             
             $configIni = parse_ini_file(__DIR__.'/private/config.ini');
             
             $API_KEY = $configIni["apikey"];
-            
-            // Includes the libraries installed by Composer.
-            
-//            $http = new GuzzleHttp\Client(['verify' => '/path/to/cacert.pem']);
             
             // Set up the Google API Client.
             $client = new Google_Client();
