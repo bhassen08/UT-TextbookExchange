@@ -79,6 +79,8 @@ error_reporting(E_ALL);
                     echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
                     echo '<h3><a href="#" title="">Description</a></h3>';
                     echo '<p>' . $results[0]['volumeInfo']['description'] . '</p>';
+                    // Search buttons (i.e. Trade(1), Rent (1), Purchase (0)...
+                    include("./inc/searchbuttons.php");
                     echo '</div>';
                     echo '</article>';
                     echo '</section>';
@@ -106,6 +108,8 @@ error_reporting(E_ALL);
                         echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
                         echo '<h3><a href="#" title="">Description</a></h3>';
                         echo '<p>' . $item['volumeInfo']['description'] . '</p>';
+                        // Search buttons (i.e. Trade(1), Rent (1), Purchase (0)...
+                        include("./inc/searchbuttons.php");
                         echo '</div>';
                         echo '</article>';
                     }
