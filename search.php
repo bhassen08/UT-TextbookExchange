@@ -59,8 +59,6 @@ error_reporting(E_ALL);
             
             // Set up the Google API Client.
             $client = new Google_Client();
-            
-//            $client->setHttpClient($http);
             $client->setApplicationName("UTTE");
             $client->setDeveloperKey($API_KEY);
             
