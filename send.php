@@ -56,12 +56,12 @@ if($_GET['i']){
 			$receiver=$arr['1'];
 			$actiontype=1; // 1= trade, 2= rent for $, 3= sell for $$$
 			
-			echo "<pre>";
+			/* echo "<pre>";
 			echo "<br> sender/whoami:" . $sender;
 			echo "<br> k-id:" . $keeperid;
 			echo "<br> receiever:" . $receiver;
 			echo "<br> aciton type:" . $actiontype;
-			echo "</pre>";
+			echo "</pre>"; */
 			
 		?>
 		<p><form method="POST" action="./send.php" >
@@ -89,9 +89,9 @@ if($_GET['i']){
 	
 	if($connect->query("INSERT INTO `messages` (`sender`, `receiver`, `message`, `keeperid`, `actiontype`) VALUES ('$sender', '$receiver', '$msg', '$keeperid', '$actiontype');")){
 		echo "<h1>Thank you!</h1>";
-		echo "<p>Your reqest has been sent to the first available student with the book you requested.<br />Once they receive your request, they can reply, and approve/deny the trade.<br />";
+		echo "<p>Your reqest has been sent to the first available student with the book you requested.<br />Once they receive your request, they can reply, and approve/deny the trade.<br /><br />";
 		echo "<a href=\"./mybooks.php\">Return to myBooks page</a><br />";
-		echo "<a href=\"./inbox.php\">Go to Inbox</a></p>";
+		echo "<a href=\"./inbox.php\">Go to Inbox</a></p><br />";
 	}else{
 		echo "Message sending failed.";
 	}
@@ -107,4 +107,3 @@ if($_GET['i']){
 
 include "./inc/footer.php";
 ?>
-
