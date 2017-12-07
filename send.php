@@ -43,7 +43,7 @@ if($_GET['i']){
 			
             $userName = $db->real_escape_string($_SESSION['user']);
             // GET USER ID
-            $getUserIdQuery = "SELECT xbucketo_utte.users.id FROM xbucketo_utte.users WHERE username = '$userName'";
+            $getUserIdQuery = "SELECT users.id FROM users WHERE username = '$userName'";
             $userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
 			$sender = $userIdResult->fetch_row();
 			$sender=$sender['0'];

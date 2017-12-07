@@ -167,7 +167,7 @@ error_reporting(E_ALL);
 <?php
 	$userName = $db->real_escape_string($_SESSION['user']);
 	// GET USER ID
-	$getUserIdQuery = "SELECT xbucketo_utte.users.id FROM xbucketo_utte.users WHERE username = '$userName'";
+	$getUserIdQuery = "SELECT users.id FROM users WHERE username = '$userName'";
 	$userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
 	$userId = $userIdResult->fetch_row();
 	$userId=$userId['0'];
