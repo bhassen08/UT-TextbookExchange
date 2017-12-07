@@ -54,7 +54,7 @@ if($_GET['i']){
 			$arr=$to->fetch_row();
 			$keeperid=$arr['0'];
 			$receiver=$arr['1'];
-			$actiontype=1; // 1= trade, 2= rent for $, 3= sell for $$$
+			$actiontype=1; // 0=reply 1= trade, 2= rent for $, 3= sell for $$$
 			
 			/* echo "<pre>";
 			echo "<br> sender/whoami:" . $sender;
