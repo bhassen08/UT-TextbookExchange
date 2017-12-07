@@ -29,7 +29,7 @@ error_reporting(E_ALL);
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 style="color: #003e7e;" class="display-4">Search Results</h1>
-                    <p class="lead">"I'll have what she's having." - Woman in diner</p>
+                    <p class="lead">"I'll have what she's having." -Woman in diner</p>
                 </div>
             </div>
             
@@ -56,10 +56,16 @@ error_reporting(E_ALL);
             // Is this an ISBN #?
             $searchValidated = preg_replace("/[^a-zA-Z0-9]+/", "", $searchValue);
             
+			// If search term is detected as an ISBN, then append "isbn:" to the prefix of the search term to limit the search to only isbn.
+			if(ctype_digit($searchValidated)){
+				$searchIsbn="isbn:";
+				$searchIsbn.=$searchValidated;
+				$searchValidated=$searchIsbn;
+			}
             $results = $service->volumes->listVolumes($searchValidated, $optParams);
             
             // Return only one result if ISBN, we don't care about similar numbers here.
-            if (is_numeric($searchValidated))
+           /* if ($searchValidated)
                 {
                     echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">1</strong> result was found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup>';
                     echo '<section class="col-xs-12 col-sm-6 col-md-12">';
@@ -79,6 +85,11 @@ error_reporting(E_ALL);
                     echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
                     echo '<h3><a href="#" title="">Description</a></h3>';
                     echo '<p>' . $results[0]['volumeInfo']['description'] . '</p>';
+					
+					echo "<p><pre>";
+					var_dump($results);
+					echo "</p></pre>";
+					
                     // Search buttons (i.e. Trade(1), Rent (1), Purchase (0)...
                     include("./inc/searchbuttons.php");
                     echo '</div>';
@@ -86,8 +97,9 @@ error_reporting(E_ALL);
                     echo '</section>';
                 }
             else
-                {
-                    echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">' . $results->totalItems .'</strong> results were found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup>';
+                { */
+					
+                    echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ' . count($results) .'</strong> results were found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup><br /><br /><br />';
                     echo '<section class="col-xs-12 col-sm-6 col-md-12">';
 
                     foreach ($results as $item)
@@ -115,7 +127,7 @@ error_reporting(E_ALL);
                     }
 
                     echo '</section>';
-                }
+              // }
             ?>
             <?php
             include "./inc/footer.php";

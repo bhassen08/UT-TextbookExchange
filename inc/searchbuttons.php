@@ -17,6 +17,6 @@ if($results){
 
 echo "<a href=\"./send.php?i=" . $isbn13 . "\"><button type=\"button\" class=\"btn btn-info\">Trade (" . $trade . ")</button></a> ";
 echo "<button type=\"button\" class=\"btn btn-info\">Rent (" . $rent . ")</button> ";
-echo "<button type=\"button\" class=\"btn btn-info\">Purchase (" . $sell . ")</button>";
+echo "<button type=\"button\" class=\"btn btn-info\">Purchase (" . $sell . ")</button><br /><br /><br /><br />";
 
 ?>
