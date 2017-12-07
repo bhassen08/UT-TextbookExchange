@@ -36,14 +36,14 @@ error_reporting(E_ALL);
 // TODO: add the rest of the input data and verify it.
 if($_GET['i']){
 	?>
-		<br /><br /><h2>Compose a message:</h2>
+		<br /><br /><h2>Ok, you're one step closer to borrowing that book:</h2><br /><i>Enter a message that will get sent to the student offering the book up for trade.<br />They will be able to reply to work out the details and then, hopefully, approve your request!</i>
 		<?php
 		// sender, receiver, message, sent, keeperid, actiontype
 			$isbn13=$_GET['i'];
 			
             $userName = $db->real_escape_string($_SESSION['user']);
             // GET USER ID
-            $getUserIdQuery = "SELECT users.id FROM users WHERE username = '$userName'";
+            $getUserIdQuery = "SELECT xbucketo_utte.users.id FROM xbucketo_utte.users WHERE username = '$userName'";
             $userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
 			$sender = $userIdResult->fetch_row();
 			$sender=$sender['0'];
@@ -70,22 +70,28 @@ if($_GET['i']){
 			<input type="hidden" name="isbn13" value="<?php echo $isbn13; ?>" ></input>
 			<input type="hidden" name="keeperid" value="<?php echo $keeperid; ?>" ></input>
 			<input type="hidden" name="actiontype" value="<?php echo $actiontype; ?>" ></input>
-			Message: <textarea cols="50" rows="6" name="msg"></textarea> <input type="submit" value="Send"></input>
+			Message: <textarea cols="50" rows="6" name="msg">Hi there! I'd love to borrow your book for the coming semester. Where can we meet?</textarea> <input type="submit" value="Send"></input>
 		</form></p>
 		<?
 		
 }elseif($_POST['actiontype']){ // add other variables to confirm that the message post variables are passed. 
 
+	require_once(__DIR__ . '/inc/connect.php');
+    $connect = DbConnection::getConnection();
+
 	$sender=$_POST['sender'];
 	$receiver=$_POST['to'];
-	$msg=$_POST['msg'];
+	$msg=$connect->real_escape_string($_POST['msg']);
 	$keeperid=$_POST['keeperid'];
 	$actiontype=$_POST['actiontype'];
 	
+	echo "<pre>";
+	var_dump($_POST);
+	echo "</pre>";
+	
 	// 1= trade, 2= rent for $, 3= sell for $$$	
 	
-	require_once(__DIR__ . '/inc/connect.php');
-    $connect = DbConnection::getConnection();
+	
 	
 	if($connect->query("INSERT INTO `messages` (`sender`, `receiver`, `message`, `keeperid`, `actiontype`) VALUES ('$sender', '$receiver', '$msg', '$keeperid', '$actiontype');")){
 		echo "<h1>Thank you!</h1>";
