@@ -127,21 +127,6 @@ error_reporting(E_ALL);
                     <p class="lead">"It's the decisions you make—when you have no time to make them—that define who you are." - Teh_Masterer</p>
                 </div>
             </div>
-
-<?php
-
-$userName = $db->real_escape_string($_SESSION['user']);
-// GET USER ID
-$getUserIdQuery = "SELECT xbucketo_utte.users.id FROM xbucketo_utte.users WHERE username = '$userName'";
-$userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
-$userId = $userIdResult->fetch_row();
-$userId=$userId['0'];
-
-require_once(__DIR__ . '/inc/connect.php');
-$connect = DbConnection::getConnection();
-$msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or die(mysql_error());
-
-?>
 	
 	<!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=data-table-with-filter-row-feature -->
 	
@@ -150,7 +135,7 @@ $msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or 
 		<div class="row">
 			<div class="col-sm-6"><h2>Messages</h2></div>
 			<div class="col-sm-6">
-				<div class="btn-group" data-toggle="buttons">
+			<!--	<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-info active">
 						<input type="radio" name="status" value="all" checked="checked"> All
 					</label>
@@ -162,8 +147,8 @@ $msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or 
 					</label>
 					<!--<label class="btn btn-danger">
 						<input type="radio" name="status" value="expired"> Expired
-					</label> -->							
-				</div>
+					</label> 				
+				</div>-->
 			</div>
 		</div>
 	</div>
@@ -171,7 +156,7 @@ $msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or 
 		<thead>
 			<tr>
 				<th>From</th>
-				<th>Time&nbsp; Sent</th>
+				<th>Time&nbsp;Sent</th>
 				<th>Subject</th>
 				<th>Book</th>
 				<th>Status</th>
@@ -180,11 +165,20 @@ $msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or 
 		</thead>
 		<tbody>
 <?php
+	$userName = $db->real_escape_string($_SESSION['user']);
+	// GET USER ID
+	$getUserIdQuery = "SELECT xbucketo_utte.users.id FROM xbucketo_utte.users WHERE username = '$userName'";
+	$userIdResult = $db->query($getUserIdQuery) or die("BAD SQL: $getUserIdQuery");
+	$userId = $userIdResult->fetch_row();
+	$userId=$userId['0'];
+	
+	$msg=$db->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or die(mysql_error());
 
 
-	while($row=mysqli_fetch_array($msg)){
-		echo "<pre>";
-		var_dump($msg);
+	while($row = $msg->fetch_array()){
+		/*echo "<pre>";
+		var_dump($row);
+		echo "asdasd:" . $row['7'];
 		echo "</pre>";
 		// TODO: Clean this up, no need to fetch an array. Runs a query to x-check bookid every line.
 		$bookid=$row['keeperid'];
@@ -193,15 +187,27 @@ $msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or 
 		// TODO: Clean this up, no need to fetch an array. Runs a query to x-check uid every line.
 		$uid=$row['sender'];
 		$q=$connect->query("SELECT `username` FROM `users` WHERE `uid`='$uid';") or die(mysql_error());
-		$un=mysqli_fetch_array($q);
+		$un=mysqli_fetch_array($q);*/
+		
+		$suid=$row['1'];
+		$q=$db->query("SELECT `username` FROM `users` WHERE `id`='$suid';") or die(mysql_error());
+		$user=mysqli_fetch_array($q);
+		
+		/*$kid=$row['5'];
+		$q=$db->query("SELECT `username` FROM `users` WHERE `id`='$suid';") or die(mysql_error());
+		$booktitle=mysqli_fetch_array($q);*/
 		
 		echo "<tr data-status=\"active\"> <!-- inactive, expired -->";
-		echo "<td>" . $un['0'] . "</td>";
-		echo "<td>" . $row['sent'] . "</td>";
-		echo "<td>" . $row['subject'] . "</td>";
-		echo "<td>" . $booktitle['0'] . "</td>";
-		echo "<td><span class=\"label label-success\">Unread</span></td>";
-		echo "<td><a href=\"./?vmsg&id=" . $row['uid'] . "\" class=\"btn btn-sm manage\">Open</a></td>";
+		echo "<td>" . $user['0'] . "</td>";
+		echo "<td>" . $row['4'] . "</td>";
+		echo "<td>n/a</td>";
+		echo "<td>" . $row['5'] . "</td>";
+		if(strcmp($row['7'], "0")==0){
+			echo "<td><span class=\"label label-success\">Unread</span></td>";
+		}else{
+			echo "<td><span class=\"label label-warning\">Read</span></td>";
+		}
+		echo "<td><a href=\"./vmsg.php?id=" . $row['0'] . "\" class=\"btn btn-sm manage\">Open</a></td>";
 		echo "</tr>";
 		//echo "<tr><td>" . $un['0'] . "</td><td>" . $row['subject'] . "</td><td>" . $row['sent'] . "</td><td>" . $booktitle['0'] . "</td><td><a href=\"./?vmsg&amp;id=" . $row['uid'] . "\">View</a></td></tr>";
 	}
@@ -211,7 +217,7 @@ $msg=$connect->query("SELECT * FROM `messages` WHERE `receiver`='$userId';") or 
 	</table>
 	</div>
 <?php
-			mysqli_close($connect);
+
 
             include "./inc/postmodals.php";
             include "./inc/footer.php";

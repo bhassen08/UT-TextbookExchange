@@ -217,7 +217,7 @@
 
 <?php
     
-    require_once(__DIR__ . './connect.php');
+    require_once(__DIR__ . '/connect.php');
     $db = DbConnection::getConnection();
 
     if (isset($_POST['sellSubmit']))

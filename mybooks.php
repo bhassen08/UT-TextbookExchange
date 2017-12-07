@@ -21,7 +21,7 @@ error_reporting(E_ALL);
         include "./inc/navbar.php";
         require_once "vendor/autoload.php";
         
-        require_once(__DIR__ . '\inc\mybookcontent.php');
+        require_once(__DIR__ . '/inc/mybookcontent.php');
         ?>
 
         <div class="wrapper">
