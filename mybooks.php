@@ -21,7 +21,7 @@ error_reporting(E_ALL);
         include "./inc/navbar.php";
         require_once "vendor/autoload.php";
         
-        require_once(__DIR__ . '\inc\mybookcontent.php');
+        require_once(__DIR__ . '/inc/mybookcontent.php');
         ?>
 
         <div class="wrapper">
@@ -37,7 +37,7 @@ error_reporting(E_ALL);
                     <div class="col-sm-2">
                         <ul class="nav flex-column nav-pills">
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link active new-posting" href="mybooks.php?newpost=true">New Posting</a>
+                                <a style="text-align: center;" class="nav-link active new-posting" href="mybooks.php">New Posting</a>
                             </li>
                             <li class="nav-item">
                                 <a style="text-align: center;" class="nav-link for-sale" href="mybooks.php?forsale=true">For Sale</a>
@@ -46,7 +46,7 @@ error_reporting(E_ALL);
                                 <a style="text-align: center;" class="nav-link for-rent" href="mybooks.php?forrent=true">For Rent</a>
                             </li>
                             <li class="nav-item">
-                                <a style="text-align: center;" class="nav-link trade" href="mybooks.php?fortrade=true">Trade</a>
+                                <a style="text-align: center;" class="nav-link trade" href="mybooks.php?fortrade=true">For Trade</a>
                             </li>
                             <li class="nav-item">
                                 <a style="text-align: center;" class="nav-link purchased" href="mybooks.php?purchased=true">Purchased</a>
@@ -60,10 +60,56 @@ error_reporting(E_ALL);
                     <div class="col-sm-10 d-flex align-items-center">
                         <div class="col-sm-11 show-for-sale">
                             <?php
-                                require_once(__DIR__ . '\inc\mybookcontent.php');
+                                require_once(__DIR__ . '/inc/mybookcontent.php');
                                 
-                                if (isset($_GET['newpost']))
+                                if (isset($_GET['forsale']))
                                     {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.for-sale").addClass("active");';
+                                        echo '</script>';
+                                        
+                                        myBooksContent('forsale');
+                                    }
+                                elseif (isset($_GET['forrent']))
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.for-rent").addClass("active");';
+                                        echo '</script>';
+                                        
+                                        myBooksContent('forrent');
+                                    }
+                                elseif (isset($_GET['fortrade']))
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.trade").addClass("active");';
+                                        echo '</script>';
+                                        
+                                        myBooksContent('fortrade');
+                                    }
+                                elseif (isset($_GET['purchased']))
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.purchased").addClass("active");';
+                                        echo '</script>';
+                                    }
+                                elseif (isset($_GET['renting']))
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.im-renting").addClass("active");';
+                                        echo '</script>';
+                                    }
+                                else
+                                    {
+                                        echo '<script>';
+                                        echo '$("div ul li a").removeClass("active");';
+                                        echo '$("a.new-posting").addClass("active");';
+                                        echo '</script>';
+                                        
                                         echo '<div class="container show-new-posting">';
                                         echo '<div class="row align-items-end">';
                                         echo '<div class="col-sm-4">';
@@ -83,53 +129,6 @@ error_reporting(E_ALL);
                                         echo '</div>';
                                         echo '</div>';
                                         echo '</div>';
-                                        
-                                        echo '<script>';
-                                        echo '$("div ul li a").removeClass("active");';
-                                        echo '$("a.new-posting").addClass("active");';
-                                        echo '</script>';
-                                        
-                                    }
-                                elseif (isset($_GET['forsale']))
-                                    {
-                                        myBooksContent('forsale');
-                                        
-                                        echo '<script>';
-                                        echo '$("div ul li a").removeClass("active");';
-                                        echo '$("a.for-sale").addClass("active");';
-                                        echo '</script>';
-                                    }
-                                elseif (isset($_GET['forrent']))
-                                    {
-                                        myBooksContent('forrent');
-                                        
-                                        echo '<script>';
-                                        echo '$("div ul li a").removeClass("active");';
-                                        echo '$("a.for-rent").addClass("active");';
-                                        echo '</script>';
-                                    }
-                                elseif (isset($_GET['fortrade']))
-                                    {
-                                        myBooksContent('fortrade');
-                                        
-                                        echo '<script>';
-                                        echo '$("div ul li a").removeClass("active");';
-                                        echo '$("a.trade").addClass("active");';
-                                        echo '</script>';
-                                    }
-                                elseif (isset($_GET['purchased']))
-                                    {
-                                        echo '<script>';
-                                        echo '$("div ul li a").removeClass("active");';
-                                        echo '$("a.purchased").addClass("active");';
-                                        echo '</script>';
-                                    }
-                                elseif (isset($_GET['renting']))
-                                    {
-                                        echo '<script>';
-                                        echo '$("div ul li a").removeClass("active");';
-                                        echo '$("a.im-renting").addClass("active");';
-                                        echo '</script>';
                                     }
                             ?>
                         </div>

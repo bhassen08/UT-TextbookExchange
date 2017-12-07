@@ -125,11 +125,11 @@
                     </fieldset>
                     <div class="form-group">
                         <label for="rentSemesters">Which semesters would you like to list this book for rent?</label>
-                        <select multiple class="form-control" id="rentSemesters">
-                            <option>Spring 2018</option>
-                            <option>Summer 2018</option>
-                            <option>Fall 2018</option>
-                            <option>Spring 2019</option>
+                        <select multiple class="form-control" id="rentSemesters" name="rentSemesters[]">
+                            <option value="1">Spring 2018</option>
+                            <option value="2">Summer 2018</option>
+                            <option value="3">Fall 2018</option>
+                            <option value="4">Spring 2019</option>
                         </select>
                     </div>
                 </div>
@@ -219,7 +219,8 @@
     
     require_once(__DIR__ . './connect.php');
     $db = DbConnection::getConnection();
-
+    $api = ApiConnection::getConnection();
+    
     if (isset($_POST['sellSubmit']))
         {
             $isbn = $db->real_escape_string($_POST['isbnSell']);
@@ -237,10 +238,20 @@
                 }
             else
                 {
-                    $userId = $userIdResult->fetch_row();
+                    $optParams = array('maxResults' => 1);
+                    $apiResults = $api->volumes->listVolumes($isbn, $optParams);
                     
-                    $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, sellprice, isbn13) VALUES ('$userId[0]', 1, '$condition', '$sellPrice', '$isbn');";
-                    $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
+                    if ($apiResults[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] != $isbn)
+                        {
+                            echo 'ERROR: ISBN DOES NOT BELONG TO A BOOK.  BOOK WAS NOT ADDED TO DATABASE.';
+                        }
+                    else
+                        {
+                            $userId = $userIdResult->fetch_row();
+                    
+                            $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, sellprice, isbn13) VALUES ('$userId[0]', 1, '$condition', '$sellPrice', '$isbn');";
+                            $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
+                        }
                 }
         }
         
@@ -266,7 +277,7 @@
                     // Instantiating a new array with 4 values (for each semester) at default 0 (0 means not available).
                     $semesterAvailability = array_fill(0, 4, 0);
 
-                    foreach ($_POST['tradeSemesters'] as $semester)
+                    foreach ($_POST['rentSemesters'] as $semester)
                         {
                             switch ($semester)
                                 {
@@ -297,7 +308,7 @@
                     $semesterTableId = $db->insert_id;
 
                     // Insert keeper data into database and includes semester availability id.
-                    $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, isbn13, rentPrice, tradesemesterid) VALUES ('$userId[0]', 1, '$condition', '$isbn', '$rentPrice', '$semesterTableId');";
+                    $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, isbn13, rentPrice, rentsemesterid) VALUES ('$userId[0]', 1, '$condition', '$isbn', '$rentPrice', '$semesterTableId');";
                     $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
                 }
         }
