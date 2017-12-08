@@ -241,16 +241,16 @@
                     $optParams = array('maxResults' => 1);
                     $apiResults = $api->volumes->listVolumes($isbn, $optParams);
                     
-                    if ($apiResults[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] != $isbn)
-                        {
-                            echo 'ERROR: ISBN DOES NOT BELONG TO A BOOK.  BOOK WAS NOT ADDED TO DATABASE.';
-                        }
-                    else
+                    if ($apiResults[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] == $isbn || $apiResults[0]['volumeInfo']['industryIdentifiers'][1]['identifier'] == $isbn)
                         {
                             $userId = $userIdResult->fetch_row();
                     
                             $addBookToDbQuery = "INSERT INTO keeper (userid, available, bookcondition, sellprice, isbn13) VALUES ('$userId[0]', 1, '$condition', '$sellPrice', '$isbn');";
                             $db->query($addBookToDbQuery) or die("BAD SQL: $addBookToDbQuery");
+                        }
+                    else
+                        {
+                            echo 'ERROR: ISBN DOES NOT BELONG TO A BOOK.  BOOK WAS NOT ADDED TO DATABASE.';
                         }
                 }
         }

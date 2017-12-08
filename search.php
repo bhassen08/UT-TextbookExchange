@@ -63,41 +63,6 @@ error_reporting(E_ALL);
 				$searchValidated=$searchIsbn;
 			}
             $results = $service->volumes->listVolumes($searchValidated, $optParams);
-            
-            // Return only one result if ISBN, we don't care about similar numbers here.
-           /* if ($searchValidated)
-                {
-                    echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">1</strong> result was found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup>';
-                    echo '<section class="col-xs-12 col-sm-6 col-md-12">';
-                    echo '<article class="search-result row">';
-                    echo '<div class="col-xs-12 col-sm-12 col-md-2">';
-                    echo '<a href="#" title="Lorem ipsum" class="thumbnail"><img class="mx-auto d-block" src="' . $results[0]['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Lorem ipsum" /></a>';
-                    echo '</div>';
-                    echo '<div class="col-xs-12 col-sm-12 col-md-3">';
-                    echo '<ul class="meta-search">';
-                    echo '<li><span>Title: ' . $results[0]['volumeInfo']['title'] . '</span></li>';
-                    echo '<li><span>Author:  ' . implode(",", $results[0]['volumeInfo']['authors']) . '</span></li>';
-                    echo '<li><span>Publisher:  ' . $results[0]['volumeInfo']['publisher'] . '</span></li>';
-                    echo '<li><span>ISBN13:  ' . $results[0]['volumeInfo']['industryIdentifiers'][0]['identifier'] . '</span></li>';
-                    echo '<li><span>ISBN10:  ' . $results[0]['volumeInfo']['industryIdentifiers'][1]['identifier'] . '</span></li>';
-                    echo '</ul>';
-                    echo '</div>';
-                    echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
-                    echo '<h3><a href="#" title="">Description</a></h3>';
-                    echo '<p>' . $results[0]['volumeInfo']['description'] . '</p>';
-					
-					echo "<p><pre>";
-					var_dump($results);
-					echo "</p></pre>";
-					
-                    // Search buttons (i.e. Trade(1), Rent (1), Purchase (0)...
-                    include("./inc/searchbuttons.php");
-                    echo '</div>';
-                    echo '</article>';
-                    echo '</section>';
-                }
-            else
-                { */
 					
                     echo '<hgroup class="mb20"><h2 class="lead"><strong class="text-danger">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ' . count($results) .'</strong> results were found for <strong class="text-danger">"' . $searchValue . '"</strong></h2></hgroup><br /><br /><br />';
                     echo '<section class="col-xs-12 col-sm-6 col-md-12">';
@@ -106,20 +71,57 @@ error_reporting(E_ALL);
                     {
                         echo '<article class="search-result row">';
                         echo '<div class="col-xs-12 col-sm-12 col-md-2">';
-                        echo '<a href="#" title="Lorem ipsum" class="thumbnail"><img class="mx-auto d-block" src="' . $item['volumeInfo']['imageLinks']['smallThumbnail'] . '" alt="Lorem ipsum" /></a>';
+                        if (isset($item['volumeInfo']['imageLinks']['smallThumbnail']) && isset($item['volumeInfo']['previewLink']))
+                            {
+                                echo '<a href="'.$item['volumeInfo']['previewLink'].'" class="thumbnail"><img class="mx-auto d-block" src="'.$item['volumeInfo']['imageLinks']['smallThumbnail'].'" alt="Lorem ipsum" /></a>';
+                            }
+                        elseif (isset($item['volumeInfo']['imageLinks']['smallThumbnail']))
+                            {
+                                echo '<img class="mx-auto d-block" src="'.$item['volumeInfo']['imageLinks']['smallThumbnail'].'" alt="Lorem ipsum" />';
+                            }
                         echo '</div>';
                         echo '<div class="col-xs-12 col-sm-12 col-md-3">';
                         echo '<ul class="meta-search">';
-                        echo '<li><span>Title: ' . $item['volumeInfo']['title'] . '</span></li>';
-                        echo '<li><span>Author:  ' . implode(",", $item['volumeInfo']['authors']) . '</span></li>';
-                        echo '<li><span>Publisher:  ' . $item['volumeInfo']['publisher'] . '</span></li>';
-                        echo '<li><span>ISBN13:  ' . $item['volumeInfo']['industryIdentifiers'][0]['identifier'] . '</span></li>';
-                        echo '<li><span>ISBN10:  ' . $item['volumeInfo']['industryIdentifiers'][1]['identifier'] . '</span></li>';
+                        if (isset($item['volumeInfo']['title']))
+                            {
+                                echo '<li><span><b>Title:</b> ' . $item['volumeInfo']['title'] . '</span></li>';
+                            }
+                        else
+                            {
+                                echo '<li><span><b>Title:</b> N/A';
+                            }
+                        if (isset($item['volumeInfo']['authors']))
+                            {
+                                echo '<li><span><b>Author:</b>  ' . implode(",", $item['volumeInfo']['authors']) . '</span></li>';
+                            }
+                        else
+                            {
+                                echo '<li><span><b>Author:</b> N/A';
+                            }
+                        if (isset($item['volumeInfo']['publisher']))
+                            {
+                                echo '<li><span><b>Publisher:</b>  ' . $item['volumeInfo']['publisher'] . '</span></li>';
+                            }
+                        else
+                            {
+                                echo '<li><span><b>Publisher:</b> N/A';
+                            }
+                         if (isset($item['volumeInfo']['industryIdentifiers'][0]['identifier']))
+                            {
+                                echo '<li><span><b>ISBN13:</b>  ' . $item['volumeInfo']['industryIdentifiers'][0]['identifier'] . '</span></li>';
+                            }
+                        if (isset($item['volumeInfo']['industryIdentifiers'][1]['identifier']))
+                            {
+                                echo '<li><span><b>ISBN10:</b>  ' . $item['volumeInfo']['industryIdentifiers'][1]['identifier'] . '</span></li>';
+                            }
                         echo '</ul>';
                         echo '</div>';
                         echo '<div class="col-xs-12 col-sm-12 col-md-7 excerpet">';
                         echo '<h3><a href="#" title="">Description</a></h3>';
-                        echo '<p>' . $item['volumeInfo']['description'] . '</p>';
+                        if (isset($item['volumeInfo']['description']))
+                                {
+                                    echo '<p>' . $item['volumeInfo']['description'] . '</p>';
+                                }
                         // Search buttons (i.e. Trade(1), Rent (1), Purchase (0)...
                         include("./inc/searchbuttons.php");
                         echo '</div>';
