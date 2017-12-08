@@ -105,7 +105,7 @@ if(ctype_digit($id) && empty($_GET['a'])){
 						<input type="hidden" name="actiontype" value="<?php echo $actiontype; ?>" ></input>
 						Message: <textarea cols="50" rows="6" name="msg"></textarea> <input type="submit" value="Send"></input>
 					</form></p>
-					<?
+					<?php
 					
 			}elseif($_POST['actiontype']){ // add other variables to confirm that the message post variables are passed. 
 

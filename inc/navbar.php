@@ -1,6 +1,6 @@
 <?php
     // Modal functionality
-    require_once(__DIR__ . './connect.php');
+    require_once(__DIR__ . '/connect.php');
     $db = DbConnection::getConnection();
             
     if (isset($_POST['submitSignUp']))
@@ -84,9 +84,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="./inbox.php">Inbox</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link" href="./profile.php">Profile</a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a class="nav-link" href="./logout.php">Log Out</a>
                                     </li>';

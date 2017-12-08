@@ -124,7 +124,7 @@ error_reporting(E_ALL);
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 style="color: #003e7e;" class="display-4">Inbox</h1>
-                    <p class="lead">"It's the decisions you make—when you have no time to make them—that define who you are." - Teh_Masterer</p>
+                    <p class="lead">“Powerful you have become, the dark side I sense in you.” -Yoda</p>
                 </div>
             </div>
 	

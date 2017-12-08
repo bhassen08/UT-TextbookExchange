@@ -32,7 +32,7 @@ and open the template in the editor.
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 style="color: #003e7e;" class="display-4">Search</h1>
-                    <p class="lead">“Powerful you have become, the dark side I sense in you.” - Yoda</p>
+                    <p class="lead">"You are never too old to set another goal or to dream a new dream." �C.S. Lewis</p>
                 </div>
             </div>
             
@@ -85,13 +85,13 @@ and open the template in the editor.
                 </div>
             </form>
 
-                <?php
+                <?php /*
                 if (!empty($_SESSION['user']))
                     {
                         require_once(__DIR__ . '/inc/InspiredTrends.php');
                         generateInspiredCards();
                     }
-                ?>
+                */ ?> 
 
                 <?php
                     include "./inc/footer.php";

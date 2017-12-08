@@ -29,7 +29,7 @@ error_reporting(E_ALL);
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <h1 style="color: #003e7e;" class="display-4">My Books</h1>
-                    <p class="lead">"It's the decisions you make—when you have no time to make them—that define who you are." - Teh_Masterer</p>
+                    <p class="lead">"The best way to predict the future is to create it." -Abraham Lincoln</p>
                 </div>
             </div>
             <div style="padding-bottom: 100px; padding-top: 100px;">

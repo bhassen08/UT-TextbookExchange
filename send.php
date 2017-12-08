@@ -84,10 +84,7 @@ if($_GET['i']){
 	$msg=$connect->real_escape_string($_POST['msg']);
 	$keeperid=$_POST['keeperid'];
 	$actiontype=$_POST['actiontype'];
-	
-	echo "<pre>";
-	var_dump($_POST);
-	echo "</pre>";
+
 	
 	// 1= trade, 2= rent for $, 3= sell for $$$	
 	
